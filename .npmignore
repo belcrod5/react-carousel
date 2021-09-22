@@ -1,0 +1,7 @@
+src/
+public/
+.gitignore
+.npmignore
+babel.config.json
+package-lock.json
+node_modules/
