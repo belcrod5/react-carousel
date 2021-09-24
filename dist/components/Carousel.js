@@ -62,6 +62,14 @@ class Carousel extends _react.default.Component {
 
   componentDidUpdate(prevProps) {}
   /* -----------------------------------------------
+  * _getWidth
+  ----------------------------------------------- */
+
+
+  _getWidth() {
+    return this._rootRef.current.clientWidth;
+  }
+  /* -----------------------------------------------
   * _onTouchStart
   ----------------------------------------------- */
 
@@ -116,14 +124,14 @@ class Carousel extends _react.default.Component {
 
     if (this._currentPos.x > 0) {
       this._currentPos.x = 0;
-    } else if (window.innerWidth * (this.props.children.length - 1) * -1 > this._currentPos.x) {
-      this._currentPos.x = window.innerWidth * (this.props.children.length - 1) * -1;
+    } else if (this._getWidth() * (this.props.children.length - 1) * -1 > this._currentPos.x) {
+      this._currentPos.x = this._getWidth() * (this.props.children.length - 1) * -1;
     } //縦移動があった場合
 
 
     if (Math.abs(this._mouseDownPos.src.y - evn.touches[0].clientY) > 50) {
       //横移動をなくす
-      this._currentPos.x = this._currentIndex * window.innerWidth * -1;
+      this._currentPos.x = this._currentIndex * this._getWidth() * -1;
     } //スタイルに設定
 
 
@@ -181,7 +189,7 @@ class Carousel extends _react.default.Component {
 
   _getCurrentSlideIndex() {
     let addX = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    let index = Math.round((this._currentPos.x + addX) / window.innerWidth * -1); //２画面飛ばした時は1画面に抑える
+    let index = Math.round((this._currentPos.x + addX) / this._getWidth() * -1); //２画面飛ばした時は1画面に抑える
 
     if (Math.abs(index - this._currentIndex) > 1) {
       index = index - this._currentIndex > 0 ? this._currentIndex + 1 : this._currentIndex - 1;
@@ -235,10 +243,12 @@ class Carousel extends _react.default.Component {
 
 
   goToSlide(slideIndex) {
-    //現在位置を開始位置に置き換える
+    //制限
+    if (slideIndex < 0 || this.props.children.length <= slideIndex) return; //現在位置を開始位置に置き換える
+
     this._startPosX = this._currentPos.x; //移動位置
 
-    this._movePosX = slideIndex * window.innerWidth * -1; //移動量を計算
+    this._movePosX = slideIndex * this._getWidth() * -1; //移動量を計算
 
     this._movePosX -= this._startPosX; //アニメーションを停止
 
@@ -255,14 +265,16 @@ class Carousel extends _react.default.Component {
 
   render() {
     return /*#__PURE__*/_react.default.createElement("div", {
-      ref: this._rootRef,
       className: _CarouselModule.default.carousel,
       onTouchStart: this._onTouchStart,
       onTouchMove: this._onTouchMove,
       onTouchEnd: this._onTouchEnd
+    }, /*#__PURE__*/_react.default.createElement("div", {
+      ref: this._rootRef,
+      className: _CarouselModule.default.wrapper
     }, this.props.children.map((child, index) => /*#__PURE__*/_react.default.createElement("li", {
       key: index
-    }, child)));
+    }, child))));
   }
 
 } // Propsのデフォルト値
