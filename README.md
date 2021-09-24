@@ -7,6 +7,11 @@
 このモジュールは、React用のモバイルで高速に処理するスライダーまたはcarouselです。
 現在はモバイルのみで動作いたします。
 
+# Demo
+https://belcrod5.github.io/react-carousel/
+
+
+
 # Install
 ```
 npm install @belcrod5/react-carousel --save
