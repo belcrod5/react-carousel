@@ -46,6 +46,7 @@ class Carousel extends _react.default.Component {
     this._onTouchMove = this._onTouchMove.bind(this);
     this._onTouchEnd = this._onTouchEnd.bind(this);
     this._animstep = this._animstep.bind(this);
+    this._diffX = 0;
     this._rootRef = /*#__PURE__*/(0, _react.createRef)();
   }
   /* -----------------------------------------------

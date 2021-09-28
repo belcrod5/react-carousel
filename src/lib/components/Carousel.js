@@ -26,7 +26,7 @@ export class Carousel extends React.Component {
       this._animstep = this._animstep.bind(this);
 
       
-
+      this._diffX = 0;
       this._rootRef = createRef();
     }
 
